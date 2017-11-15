@@ -1,0 +1,12 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-actuator-docs')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.cloud:spring-cloud-starter-config')
+    compile('org.springframework.cloud:spring-cloud-starter-vault-config')
+	compile project(':vault-config-client-discovery')
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}

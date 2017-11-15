@@ -1,0 +1,8 @@
+# Bootstrap configuration that disables the vault client and, in consequence, discovery of
+# config server credentials. The config server must either accept non-authenticated requests or
+# the credentials must be provided in the "traditional" way (environment variables, command line arguments, or
+# bootstrap configuration).
+spring:
+  cloud:
+    vault:
+      enabled: false

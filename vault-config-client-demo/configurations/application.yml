@@ -1,0 +1,4 @@
+# actuator endpoint allows for automated (and graceful) shutdown
+endpoints:
+  shutdown:
+    enabled: true

@@ -1,0 +1,15 @@
+#
+# Profile for use in tests where the config files are to be read from the classpath or file system.
+#
+# Spring Cloud Config's file system backend is activated by the selection of the "native" profile.
+#
+# The main point is the switch of the git repository URI to the file: scheme. The config server
+# will use the repository "as is" (i.e., read-only) without ever contacting a remote repository
+# for updates.
+#
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: ${configserver_native_location:classpath:/testconfigurations}

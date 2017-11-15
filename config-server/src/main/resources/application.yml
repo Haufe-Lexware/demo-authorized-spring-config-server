@@ -1,0 +1,34 @@
+info:
+  component: Config Server
+
+server:
+  # Make Tomcat listen on any interface (IPv4 and IPv6) on port 9400
+  address: 0.0.0.0
+  port: 9400
+
+spring:
+  # spring.application.name is already set in bootstrap.yml
+  jmx:
+    default_domain: cloud.config.server
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://localhost/your/repo.git
+          clone-on-start: true
+          searchPaths: path/within/repo/to/configurations
+
+haufe:
+  configserver:
+    security:
+      # spring.cloud.config.username and spring.cloud.config.password are assumed to be read from Vault
+      # because these are the properties required by the config server clients.
+      # In local development environments you can either specify them in a bootstrap file or pass them in
+      # via environment variables. (Note: Spring's SystemEnvironmentPropertySource will also
+      # look up spring_cloud_config_username and spring_cloud_config_password.)
+      #
+      # If either value is blank, then basic authentication is turned off.
+      basicAuth:
+        username: ${spring.cloud.config.username:}
+        password: ${spring.cloud.config.password:}

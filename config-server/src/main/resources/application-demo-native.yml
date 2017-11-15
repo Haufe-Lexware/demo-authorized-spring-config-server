@@ -1,0 +1,19 @@
+#
+# Profile for use of the config server when running vault-config-client-demo
+# on a developer's local machine.
+#
+# The main point is the switch to the native profile that activates the config server's file system backend.
+# The config server will read the config files from the configured locations. Even if the location happens to be
+# in a local Git repository, the config server will not try to fetch updates etc.
+#
+# NOTE:
+# The config server's working directory (PWD) must be set to the root of the Gradle project!
+#
+spring:
+  profiles:
+    include: native
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: file://${pwd}/vault-config-client-demo/configurations

@@ -1,0 +1,13 @@
+demo:
+  db:
+    host: localhost
+    database: demo
+    url: jdbc:postgresql://${demo.db.host}/${demo.db.database}
+    user: ${vault.demo.db.user}
+    password: ${vault.demo.db.passord}
+
+
+management:
+  security:
+    # Of course, in any production-like environment you must never disable the actuator endpoint's security features!!
+    enabled: false

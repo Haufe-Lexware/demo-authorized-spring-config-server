@@ -1,0 +1,5 @@
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+  com.haufe.spring.cloud.config.client.vaultdiscovery.VaultBasedDiscoveryClientBootstrapConfiguration
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.haufe.spring.cloud.config.client.vaultdiscovery.VaultBasedDiscoveryClientAutoConfiguration

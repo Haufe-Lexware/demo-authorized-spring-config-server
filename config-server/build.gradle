@@ -1,0 +1,16 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile "org.apache.commons:commons-lang3:${apacheCommonsLang3Version}"
+    compile('org.springframework.boot:spring-boot-actuator-docs')
+    optional('org.springframework.boot:spring-boot-configuration-processor')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.cloud:spring-cloud-config-server')
+    compile('org.springframework.cloud:spring-cloud-starter-vault-config')
+    
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+apply plugin: 'org.springframework.boot'

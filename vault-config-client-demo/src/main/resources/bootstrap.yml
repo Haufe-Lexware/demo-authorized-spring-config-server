@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: demo
+
+  cloud:
+    # How to access the Vault instance where we get all sensitive configuration values from.
+    vault:
+      host: ${vault_server_host:localhost}
+      port: ${vault_server_port:8200}
+      scheme: ${vault_server_scheme:https}
+      connection-timeout: 5000
+      read-timeout: 15000
+      fail-fast: true
+      config:
+        order: -10
+
+      authentication: APPROLE
+      app-role:
+        role-id: ${vault_approle_role_id}
+        secret-id: ${vault_approle_secret_id}
+        app-auth-path: approle
+
+      generic:
+        enabled: true
+        backend: ${vault_generic_backend:vault-demo-dev}
+        profile-separator: '/'
+        default-context: ${vault_generic_default_context:all-apps}
+
+    # How to access the Config Server where we get all non-sensitive configuration values from.
+    config:
+      uri: ${config_server_url:http://localhost:9400/}
+      username: ${config_server_username:configclient}
+      # the config client uses HTTP basic auth only if a password is set (here or by discovery)
+      password: ${config_server_password:}
+      fail-fast: true
+      label: ${git.branch:master}
+      discovery:
+        enabled: ${haufe.cloud.config.vaultDiscovery.enabled}
+
+haufe:
+  cloud:
+    config:
+      # Control discovery of the Spring Cloud Config Server client connection settings using
+      # properties set in the Vault.
+      #
+      # If enabled, then the following properties are taken from the vault (and overwrite whatever is
+      # specified in bootstrap.yml and bootstrap-<profile>.yml):
+      #  * spring.cloud.config.uri
+      #  * spring.cloud.config.username
+      #  * spring.cloud.config.password
+      #
+      # If username or password are not specified explicitly (in the vault or in bootstrap.yml), then
+      # they are derived from the effetcive URI's user info part, if any.
+      #
+      # Note:
+      # Both spring.cloud.config.disovery.enabled and spring.cloud.vault.enabled must be true as well
+      # or the config client won't support server discovery at all - or at least not from vault.
+      # If spring.cloud.vault.generic.enabled is false, then any attempt to read the relevant properties
+      # from vault will produce an empty property source.
+      vaultDiscovery:
+        enabled: ${vault_config_discovery_enabled:${spring.cloud.vault.enabled:true}}

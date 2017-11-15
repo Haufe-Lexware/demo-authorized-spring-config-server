@@ -1,0 +1,19 @@
+#
+# Profile for use of the config server on a developer's local machine so other services can be brought up.
+#
+# The main point is the switch of the git repository URI to the file: scheme. The config server will use the repository
+# "as is" (i.e., without cloning a new one). It will still try to fetch updates from a remote origin, though.
+#
+# Have a look at application-native-sample.yml if you need to work offline and therefore cannot
+# fetch Git repository updates.
+#
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///path/to/your/local/repository/
+          clone-on-start: false
+
+
+

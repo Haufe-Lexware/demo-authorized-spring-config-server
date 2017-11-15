@@ -1,0 +1,20 @@
+#
+# The no-vault bootstrap profile disables the vault client and vault
+#
+
+spring:
+  cloud:
+    vault:
+      enabled: false
+
+    config:
+      discovery:
+        # Turn off discovery because there is no vault client to use for discovery
+        enabled: false
+
+haufe:
+  cloud:
+    config:
+      vaultDiscovery:
+        # It's kind of redundant, but let's explicitly turn off vault-based client server discovery
+        enabled: false

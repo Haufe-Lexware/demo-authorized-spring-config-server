@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    # If you annotate a test with @ActiveProfiles, then the annotation overrides both command line parameters and
+    # the environment variable SPRING_PROFILES_ACTIVE. However, integration tests sometimes require special
+    # configurations depending on the environment. (Yes, that's not ideal, but sometimes it cannot be helped.)
+    #
+    # Therefore, this file injects the profiles listed in the configuration property
+    # spring.profiles.activeInTests into the active profiles.
+    #
+    # The "include" property expects a comma separated list of profile names. There must not be a trailing comma.
+    # If activeInTests is not set, we therefore specify localconfig twice; duplicates are silently ignored.
+    include: localconfig, native, ${spring.profiles.activeInTests:localconfig}

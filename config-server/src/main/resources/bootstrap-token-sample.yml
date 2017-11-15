@@ -1,0 +1,15 @@
+# This file is a template for developer-specific files bootstrap-token.yml.
+#
+# The files specify a token that can be used to authenticate against your vault instance
+# with access rights suitable for a dev environment.
+#
+# An administrator can issue such tokens with the following command (where USERNAME is replaced by
+# the user's respective account name, obviously):
+# $ vault token-create -metadata="user=USERNAME" -display-name=USERNAME-token \
+#      -policy=sample-policy1 -policy=sample-policy2 -ttl="768h"
+
+spring:
+  cloud:
+    vault:
+      authentication: token
+      token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

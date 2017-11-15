@@ -1,0 +1,5 @@
+demo:
+  db:
+    host: integrationtest.demo.contenthub.haufe.io
+
+

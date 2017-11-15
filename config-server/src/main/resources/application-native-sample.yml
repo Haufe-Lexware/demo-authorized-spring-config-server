@@ -1,0 +1,16 @@
+#
+# Profile for use of the config server on a developer's offline local machine so other services can be brought up.
+#
+# The main point is the switch to the native profile that activates the config server's file system backend.
+# The config server will read the config files from the configured locations. Even if the location happens to be
+# in a local Git repository, the config server will not try to fetch updates etc.
+#
+# Have a look at application-local-sample.yml if you want merely want to avoid unnecessary clones of
+# your repository, but you can still use the Git backend.
+#
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: file:///path/to/your/local/repository/and/its/configurations/folder/

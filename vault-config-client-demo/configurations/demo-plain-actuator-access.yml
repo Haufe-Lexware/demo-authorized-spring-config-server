@@ -1,0 +1,4 @@
+management:
+  security:
+    # Allow actuator access even over plain HTTP - you must never do this in production!
+    enabled: false

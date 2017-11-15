@@ -1,0 +1,121 @@
+buildscript {
+    ext {
+        axionReleasePluginVersion = '1.7.0'
+        gradleGitPropertiesPluginVersion = '1.4.17'
+        springBootVersion = '1.5.4.RELEASE'
+        springPropdepsPluginVersion = '0.0.9.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven { url 'http://repo.spring.io/plugins-release' }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("io.spring.gradle:propdeps-plugin:${springPropdepsPluginVersion}")
+        classpath("gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:${gradleGitPropertiesPluginVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("pl.allegro.tech.build:axion-release-plugin:${axionReleasePluginVersion}")
+    }
+}
+
+plugins {
+    // we say here "apply false" so we can selectively apply the plugin later on
+    // (e.g., in the subprojects block).
+    id 'io.spring.dependency-management' version '1.0.3.RELEASE' apply false
+}
+
+apply plugin: 'pl.allegro.tech.build.axion-release'
+
+ext {
+    apacheCommonsLang3Version = '3.6'
+    guavaVersion = '19.0'
+    javaslangVersion = '2.0.6'
+    springCloudVersion = 'Dalston.SR1'
+}
+
+scmVersion {
+    // documentation at http://axion-release-plugin.readthedocs.org/en/latest/index.html
+
+    repository {
+        type = 'git'
+        directory = project.rootProject.file('./')
+        remote = 'origin'
+    }
+
+    localOnly = false  // the release plugin may push to the remote repository
+
+    ignoreUncommittedChanges = false
+
+    checks {
+        uncommittedChanges = true
+        aheadOfRemote = true
+    }
+
+    tag {
+        prefix = 'release'
+        versionSeparator = '-'
+        initialVersion = { tag, position -> '0.0.1' }
+    }
+
+    versionIncrementer 'incrementPatch'
+    versionCreator 'versionWithBranch'
+    sanitizeVersion = true
+
+    nextVersion {
+        suffix = 'alpha'
+        separator = '-'
+    }
+}
+
+allprojects {
+    group = 'com.haufe.spring.cloud'
+    project.version = scmVersion.version
+
+    description = "Haufe Authenticated Spring Cloud Config Server: ${name}"
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    apply plugin: "io.spring.dependency-management"
+
+    // Spring Boot Configuration Metadata Processor plugins
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-maven'
+    apply plugin: 'propdeps-idea'
+    apply plugin: 'propdeps-eclipse'
+
+    // The gradle-git-properties plugin writes a property file with all git information.
+    // Spring Boot applications will pick it up automatically and make the info available at
+    // their "info" endpoint. I don't expect issues if we have this property file as well in the
+    // Java modules that are not based on Spring Boot (e.g., search and ingest client).
+    apply plugin: "com.gorylenko.gradle-git-properties"
+
+    apply plugin: 'maven-publish'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+    
+    // required for the Spring Metadata Configuration Processor
+    compileJava.dependsOn(processResources)
+
+    repositories {
+        mavenCentral()
+    }
+    
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+        }
+    }
+
+}
+
+

@@ -1,0 +1,16 @@
+
+jar {
+    baseName = 'vault-config-client-discovery'
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+    compile('org.springframework.cloud:spring-cloud-starter-vault-config')
+
+    compile("com.google.guava:guava:${guavaVersion}")
+    compile "io.javaslang:javaslang:${javaslangVersion}"
+    compile "org.apache.commons:commons-lang3:${apacheCommonsLang3Version}"
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

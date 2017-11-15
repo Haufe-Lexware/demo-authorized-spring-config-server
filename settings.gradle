@@ -1,0 +1,5 @@
+rootProject.name = 'authenticated-config-server'
+
+include 'config-server'
+include 'vault-config-client-discovery'
+include 'vault-config-client-demo'

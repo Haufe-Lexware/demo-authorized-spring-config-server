@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    # How to access the Vault instance where we get the config server's
+    # basic auth configuration (i.e., username and password) from.
+    vault:
+      enabled: true
+      host: ${vault_server_host:localhost}
+      port: ${vault_server_port:8200}
+      scheme: ${vault_server_scheme:https}
+      connection-timeout: 5000
+      read-timeout: 15000
+      fail-fast: true
+      config:
+        order: -10
+
+      authentication: APPROLE
+      app-role:
+        role-id: ${vault_approle_role_id}
+        secret-id: ${vault_approle_secret_id}
+        app-auth-path: approle
+
+      generic:
+        enabled: true
+        backend: ${vault_generic_backend:vault-demo-dev}
+        profile-separator: '/'
+        default-context: ${vault_generic_default_context:all-apps}
+
+
+    # explicitly disable the config client, otherwise we run into a timeout on startup
+    config:
+      enabled: false

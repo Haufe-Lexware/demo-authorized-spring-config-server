@@ -1,0 +1,8 @@
+# Bootstrap configuration that disables both vault and config server clients;
+# of course, this means all config properties must be provided in the "traditional" way.
+spring:
+  cloud:
+    vault:
+      enabled: false
+    config:
+      enabled: false
